@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad13fa2862db1c14bb08fc93e6a5be3f, type: 3}
+  m_Name: Level_1
+  m_EditorClassIdentifier: 
+  LevelNumber: 1
+  Height: 1
+  Width: 1
+  SpecialBricks: 0
+  SteelBricks: 0
+  textAreaString: '10
+
+    10'
