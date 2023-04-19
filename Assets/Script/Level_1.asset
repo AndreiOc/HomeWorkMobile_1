@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: Level_1
   m_EditorClassIdentifier: 
   LevelNumber: 1
-  Height: 1
-  Width: 1
-  SpecialBricks: 0
   SteelBricks: 0
-  textAreaString: '10
-
-    10'
+  BrickColor: {r: 0.7607843, g: 0.91764706, b: 0.7411765, a: 0}
+  _Lines: 5
+  _NBricksLine: 040000000b000000020000000b00000004000000

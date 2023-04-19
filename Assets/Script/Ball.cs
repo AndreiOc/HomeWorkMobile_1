@@ -7,17 +7,19 @@ using UnityEngine.Rendering;
 public class Ball : MonoBehaviour
 {
     [SerializeField] private float _speedBall = 200f;
+    [SerializeField] private Rigidbody2D _rb2D;
 
-    private Paddle _paddle;
-    private Rigidbody2D _rb2D;
+    /// <summary>
+    /// da editor non me lo fa inserire
+    /// può essere perchè non è un prefab?
+    /// </summary>
+    [SerializeField] private Paddle _paddle;
 
-
-    private void Awake()
+    private void Start()
     {
-        _rb2D = GetComponent<Rigidbody2D>();
-        _paddle = FindObjectOfType<Paddle>();
+        //Soluzione migliore rispetto a findobject?
+        _paddle = transform.parent.GetComponent<Paddle>();
     }
-
     private void Update()
     {
         /// Check if ball position , if it is under -6.0f, 
@@ -26,15 +28,14 @@ public class Ball : MonoBehaviour
 
         if (transform.position.y < -6.0f)
         {
-            if (_paddle.GetComponent<Paddle>()._Life > 0)
+            if (_paddle._Life > 0)
             {
-                _paddle.GetComponent<Paddle>().AttachBall();
-                _paddle.GetComponent<Paddle>().LoseLife();
+                _paddle.AttachBall();
+                _paddle.LoseLife();
             }
             else
             {
-                Debug.Log("GameOver");
-                _paddle.GetComponent<Paddle>().LoseLife();
+                _paddle.LoseLife();
                 Destroy(gameObject);
             }
         }
@@ -74,7 +75,7 @@ public class Ball : MonoBehaviour
     /// </summary>
     /// <param name="ballPositon">trasform position of the paddle</param>
     /// <param name="PaddlePosition">trasform position of the paddle</param>
-    /// <param name="PaddleWidth"></param>
+    /// <param name="PaddleWidth"> paddle width </param>
     /// <returns></returns>
     private float hitFactor(Vector2 ballPositon, Vector2 PaddlePosition, float PaddleWidth)
     {

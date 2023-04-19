@@ -6,6 +6,7 @@ public class Paddle : MonoBehaviour
 {
     [SerializeField] private float _SpeedMovement = 5;
     [SerializeField] private float _BoundX = 7.5f;
+    [SerializeField] UiController _UiController;
 
     private bool _isDeatched = false;
 
@@ -37,11 +38,15 @@ public class Paddle : MonoBehaviour
 
     /// <summary>
     /// Stick the ball to the paddle
+    /// -4,18f corrisponde alla posizione esatta della pallina sopra il paddle
+    /// Valore ottenuto dopo diverse prove, non saprei come farlo in altro modo 
+    /// se non inserendolo a mano
     /// </summary>
     public void AttachBall()
     {
         _Ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
         _Ball.transform.SetParent(transform);
+
         _Ball.transform.position = new Vector3(transform.position.x, -4.18f, 0);
         _isDeatched = false;
 
@@ -52,7 +57,7 @@ public class Paddle : MonoBehaviour
     public void LoseLife()
     {
         --_Life;
-        FindObjectOfType<UiController>().DecreaseLife();
+        _UiController.DecreaseLife();
         if (_Life < 0)
             Destroy(gameObject);
     }

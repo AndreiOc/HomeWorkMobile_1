@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class LevelGenerator : MonoBehaviour
 {
@@ -9,49 +11,95 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject _PowerUp;
 
 
-    private float _red = 0.1f;
-    private float _green = 0.1f;
-    private float _blue = 0.1f;
+    private float _red;
+    private float _green;
+    private float _blue;
     /// <summary>
     /// Start create the level using LevelScriptable ScriptableObject
     /// </summary>
     void Start()
     {
-        int random = Random.Range(0, 10);
-        Color color;
-        for (int i = -5; i < 6; i++)
+        //194, 234, 189 <--brick color
+
+        Debug.Log("r: "+ _red + " g:" + _green + " b: " +_blue );
+        _red = Level.BrickColor.r;
+        _green = Level.BrickColor.g;
+        _blue = Level.BrickColor.b;
+        CreateLevel();
+    }
+    /// <summary>
+    /// Create a personalized level based on scirptable obejct
+    /// </summary>
+    private void CreateLevel()
+    {
+        int index = 0;
+        bool isLefted = true;
+        int offest;
+        if (Level._NBricksLine[index] % 2 != 0)
+            offest = 0;
+        else
+            offest = 1;
+
+        ///start from 3
+        for (int i = 3; i >(3 - Level._Lines ); --i)
         {
-            for (float j = 3; j > (3 - Level.Width) / 2; j -= 0.5f)
+            Debug.Log(i +" "+ index );
+            for(int j = 0; j < Level._NBricksLine[index]; ++j)
             {
-                /*
-                 * Instance a new brick
-                 * randomly choose if it is special and give me a power-up
-                 */
-                GameObject instance = Instantiate(_Brick, new Vector3(i, j, 0), Quaternion.identity);
-                if (random == Random.Range(0, 10))
-                    instance.gameObject.GetComponent<Brick>()._isSpecial = true;
-
-                if (instance.gameObject.GetComponent<Brick>()._isSpecial)
+                GameObject instance;
+                ///if the number of index is odd, the offeset is 0
+                if (Level._NBricksLine[index] % 2 != 0)
                 {
-                    color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-                    instance.GetComponent<Brick>()._PowerUp = _PowerUp;
-
+                    if (isLefted)
+                    {
+                        instance = Instantiate(_Brick, new Vector3(offest, i, 0), Quaternion.identity);
+                        isLefted = false;
+                    }
+                    else
+                    {
+                        instance = Instantiate(_Brick, new Vector3((-1) * offest, i, 0), Quaternion.identity);
+                        isLefted = true;
+                    }
+                    if (j % 2 == 0)
+                        offest++;
                 }
+                //else if is pair, the offest is one 
                 else
                 {
-                    color = new Color(_red, _green, _blue);
-                    _red += 0.1f;
-                    _green += 0.1f;
-                    _blue += 0.1f;
+                    if (isLefted)
+                    {
+                        instance = Instantiate(_Brick, new Vector3(offest, i, 0), Quaternion.identity);
+                        isLefted = false;
+                    }
+                    else
+                    {
+                        instance = Instantiate(_Brick, new Vector3((-1) * offest, i, 0), Quaternion.identity);
+                        isLefted = true;
+                    }
+                    ///check per non aumetare l'offeset e mantanere la simmetria dell'immagine 
+                    if (j % 2 != 0)
+                        offest++;
                 }
-
-
+                instance.GetComponent<SpriteRenderer>().material.color = new UnityEngine.Color(_red, _green, _blue);
                 instance.transform.SetParent(transform);
-                instance.GetComponent<SpriteRenderer>().material.color = color;
+                instance.name = i.ToString();
             }
-            _red = 0.1f;
-            _green = 0.1f;
-            _blue = 0.1f;
+            _red = _red - 0.1f;
+            _green = _green - 0.1f;
+            _blue = _blue - 0.1f;
+            ///increace the index
+            ///Chech if it is correct
+            ///after check the values of bricks per line and choose the offeset
+            ++index;
+
+            if (index == Level._NBricksLine.Length)
+                index = 0;
+
+            if (Level._NBricksLine[index] % 2 != 0)
+                offest = 0;
+            else
+                offest = 1;
+
         }
     }
 

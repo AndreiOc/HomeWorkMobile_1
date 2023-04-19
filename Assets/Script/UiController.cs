@@ -10,6 +10,7 @@ public class UiController : MonoBehaviour
 
 
     private int _score = 0;
+    //variabile display
     private int _life = 2;
 
     private void Start()
@@ -23,7 +24,6 @@ public class UiController : MonoBehaviour
     public void IncreaseScore()
     {
         ++_score;
-        Debug.Log(_score);
         _Score.text = "Score : " + (_score * 100).ToString("D7");
     }
     public void DecreaseLife()
