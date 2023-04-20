@@ -1,19 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Paddle : MonoBehaviour
 {
-    [SerializeField] private float _SpeedMovement = 5;
+    [SerializeField] private float _SpeedMovement = 5f;
     [SerializeField] private float _BoundX = 7.5f;
     [SerializeField] UiController _UiController;
+    [SerializeField] private GameObject _Ball;
+
 
     private bool _isDeatched = false;
 
     public int _Life = 2;
 
-    [SerializeField] private GameObject _Ball;
-    void Start()
+    private void Start()
     {
         _Ball = Instantiate(_Ball);
         AttachBall();
@@ -23,7 +22,6 @@ public class Paddle : MonoBehaviour
     /// </summary>
     void Update()
     {
-
         if (Input.GetMouseButtonDown(0) && !_isDeatched)
             StartGame();
         if (Input.GetKey(KeyCode.A) && transform.position.x > -_BoundX)
@@ -35,32 +33,6 @@ public class Paddle : MonoBehaviour
             transform.position += Vector3.right * _SpeedMovement * Time.deltaTime;
         }
     }
-
-    /// <summary>
-    /// Stick the ball to the paddle
-    /// -4,18f corrisponde alla posizione esatta della pallina sopra il paddle
-    /// Valore ottenuto dopo diverse prove, non saprei come farlo in altro modo 
-    /// se non inserendolo a mano
-    /// </summary>
-    public void AttachBall()
-    {
-        _Ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        _Ball.transform.SetParent(transform);
-
-        _Ball.transform.position = new Vector3(transform.position.x, -4.18f, 0);
-        _isDeatched = false;
-
-    }
-    /// <summary>
-    /// Decraesce life, update UI, if life is less than 0 destroy go
-    /// </summary>
-    public void LoseLife()
-    {
-        --_Life;
-        _UiController.DecreaseLife();
-        if (_Life < 0)
-            Destroy(gameObject);
-    }
     /// <summary>
     /// Detach and launch the ball
     /// </summary>
@@ -70,5 +42,33 @@ public class Paddle : MonoBehaviour
         _Ball.GetComponent<Ball>().LaunchBall();
         _isDeatched = true;
     }
+
+    /// <summary>
+    /// Stick the ball to the paddle
+    /// -4,18f corrisponde alla posizione esatta della pallina sopra il paddle
+    /// Valore ottenuto dopo diverse prove, non saprei come farlo in altro modo 
+    /// se non inserendolo a mano, ho provato ha lasciare solo setparent, però mi crea problemi
+    /// </summary>
+    public void AttachBall()
+    {
+        _Ball.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        _Ball.transform.SetParent(transform);
+        _Ball.transform.position = new Vector3(transform.position.x, -4.18f, 0);
+        
+        _isDeatched = false;
+
+    }
+    /// <summary>
+    /// Decraesce life, update UI, if life is less than 0 destroy go
+    /// </summary>
+    public void LoseLife()
+    {
+        --_Life;
+        Debug.Log(_Life);
+        _UiController.DecreaseLife(_Life);
+        if (_Life < 0)
+            Destroy(gameObject);
+    }
+
 
 }

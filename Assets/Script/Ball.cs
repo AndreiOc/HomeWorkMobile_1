@@ -20,26 +20,7 @@ public class Ball : MonoBehaviour
         //Soluzione migliore rispetto a findobject?
         _paddle = transform.parent.GetComponent<Paddle>();
     }
-    private void Update()
-    {
-        /// Check if ball position , if it is under -6.0f, 
-        /// if you have life restick ball and lose the life
-        /// but if life is less than 0 you die
 
-        if (transform.position.y < -6.0f)
-        {
-            if (_paddle._Life > 0)
-            {
-                _paddle.AttachBall();
-                _paddle.LoseLife();
-            }
-            else
-            {
-                _paddle.LoseLife();
-                Destroy(gameObject);
-            }
-        }
-    }
     /// <summary>
     /// Launch Ball 
     /// </summary>
@@ -48,6 +29,7 @@ public class Ball : MonoBehaviour
         _rb2D.velocity = new Vector2(UnityEngine.Random.Range(-1.0f,1.0f),
                                     UnityEngine.Random.Range(0.1f, 1.0f)).normalized * _speedBall;
     }
+
     /// <summary>
     /// Check the collision
     /// if the gameobject collided is the paddle, calculate new direction
@@ -69,6 +51,7 @@ public class Ball : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = direction * _speedBall;
         }
     }
+
     /// <summary>
     /// Più il colpo si avvicina ai lati della barra più sarà orizzontale, 
     /// mentre più il colpo è centrale più sarà verticale la direzione
@@ -81,5 +64,6 @@ public class Ball : MonoBehaviour
     {
         return (ballPositon.x - PaddlePosition.x) / PaddleWidth;
     }
+
 
 }

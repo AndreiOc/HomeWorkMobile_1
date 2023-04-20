@@ -11,7 +11,6 @@ public class UiController : MonoBehaviour
 
     private int _score = 0;
     //variabile display
-    private int _life = 2;
 
     private void Start()
     {
@@ -26,9 +25,12 @@ public class UiController : MonoBehaviour
         ++_score;
         _Score.text = "Score : " + (_score * 100).ToString("D7");
     }
-    public void DecreaseLife()
+    /// <summary>
+    /// Change life value on the screen
+    /// </summary>
+    /// <param name="_life">Plyer lives</param>
+    public void DecreaseLife(int _life)
     {
-        --_life;
         if (_life > -1)
             _Life.text = "Life : " + _life.ToString("D2");
         else

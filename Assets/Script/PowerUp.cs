@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// TODO 
+/// </summary>
 public class PowerUp : MonoBehaviour
 {
     public bool isRocket = false; //press right mouse button shoot
@@ -39,10 +40,7 @@ public class PowerUp : MonoBehaviour
     }
     private void Update()
     {
-        if (transform.position.y < -6.0f)
-        {
-            Destroy(gameObject);
-        }
+        ///Posso inserirlo nel trigger del death
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

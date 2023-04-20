@@ -8,7 +8,8 @@ public class LevelGenerator : MonoBehaviour
 {
     public LevelScriptable Level;
     [SerializeField] private GameObject _Brick;
-    [SerializeField] private GameObject _PowerUp;
+    //TODO POWERUP
+    //[SerializeField] private GameObject _PowerUp;
 
 
     private float _red;
@@ -29,6 +30,7 @@ public class LevelGenerator : MonoBehaviour
     }
     /// <summary>
     /// Create a personalized level based on scirptable obejct
+    /// 
     /// </summary>
     private void CreateLevel()
     {
@@ -40,10 +42,9 @@ public class LevelGenerator : MonoBehaviour
         else
             offest = 1;
 
-        ///start from 3
+        ///start from 3 in high
         for (int i = 3; i >(3 - Level._Lines ); --i)
         {
-            Debug.Log(i +" "+ index );
             for(int j = 0; j < Level._NBricksLine[index]; ++j)
             {
                 GameObject instance;
@@ -87,7 +88,7 @@ public class LevelGenerator : MonoBehaviour
             _red = _red - 0.1f;
             _green = _green - 0.1f;
             _blue = _blue - 0.1f;
-            ///increace the index
+            ///increase the index
             ///Chech if it is correct
             ///after check the values of bricks per line and choose the offeset
             ++index;
@@ -99,7 +100,6 @@ public class LevelGenerator : MonoBehaviour
                 offest = 0;
             else
                 offest = 1;
-
         }
     }
 
